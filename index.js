@@ -74,4 +74,13 @@ app.post('/api/users/auth', auth, async (req, res) => {
     });
 })
 
+app.get('/api/users/logout', auth, async (req, res) => {
+    try {
+        await User.findOneAndUpdate({_id:req.user._id}, {token:""});
+        return res.status(200).send({success:true});
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+})
+
 app.listen(port, () => console.log(`Server running at http://127.0.0.1:${port}/`));
