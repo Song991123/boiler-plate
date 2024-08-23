@@ -105,5 +105,30 @@ userSchema.methods.generateToken = async function() {
   }
 }
 
+/**
+ * @description
+ * 주어진 토큰을 기반으로 데이터베이스에서 사용자를 찾는 정적 메서드
+ * - 클라이언트가 제공한 토큰을 복호화하여 사용자 `_id`를 추출
+ * - 추출된 `_id`와 제공된 토큰을 데이터베이스에서 확인하여 일치하는 사용자 문서 검색
+ * 
+ * @param {string} token - 클라이언트에서 제공한 JSON Web Token (JWT)
+ * 
+ * @returns {Promise<Object|null>} 사용자 문서
+ *   - 프로미스가 해결되면 검색된 사용자 문서 (일치하는 토큰을 가진 사용자) 또는 `null`
+ *   - 프로미스가 거부되면 에러 객체
+ * 
+ * @throws {Error} 토큰 복호화 또는 사용자 검색 중 오류가 발생할 경우
+ */
+userSchema.statics.findByToken = async function(token) {
+  // 토큰을 decode 한다.
+  //유저 아이디를 이용해 유저를 찾은 후, 클라이언트에서 가져온 token과 DB에 보관된 토큰이 일치하나 확인
+  try{
+    const decoded = jwt.verify(token, 'secretToken');
+    return this.findOne({ "_id" : decoded, "token" : token});
+  }catch(err){
+    throw err;
+  }
+}
+
 const User = mongoose.model("User", userSchema);
 export default User;

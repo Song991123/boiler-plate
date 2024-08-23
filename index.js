@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import User from './models/User.js';
 import config from './config/key.js';
 import cookieParser from 'cookie-parser';
+import auth from './middleware/auth.js';
 
 const app = express();
 const port = 5000;
@@ -16,7 +17,7 @@ app.use(cookieParser());
 
 app.get('/', (req, res) => res.send('Hello World!'));
 // 회원가입 기능
-app.post('/register', async (req, res) => {
+app.post('/api/users/register', async (req, res) => {
     const user = new User(req.body);
     try {
         const userInfo = await user.save();
@@ -26,7 +27,7 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.post('/login', async (req, res) => {
+app.post('/api/users/login', async (req, res) => {
     try {
         // 1. 요청된 이메일을 DB에서 찾기
         const user = await User.findOne({ email: req.body.email });
@@ -59,5 +60,18 @@ app.post('/login', async (req, res) => {
     }
 })
 
+app.post('/api/users/auth', auth, async (req, res) => {
+    // 미들웨어를 통과했다 = Authentication이 true다.
+    res.status(200).json({
+        _id: req.user._id,
+        isAdmin : req.user.role === 0 ? false : true,
+        isAuth: true,
+        email : req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        image: req.user.image
+    });
+})
 
 app.listen(port, () => console.log(`Server running at http://127.0.0.1:${port}/`));
