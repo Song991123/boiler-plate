@@ -16,8 +16,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get('/', (req, res) => res.send('Hello World!'));
+
+app.get('/hello', (req, res) => res.send('Hi'));
 // 회원가입 기능
-app.post('/api/users/register', async (req, res) => {
+app.post('/users/register', async (req, res) => {
     const user = new User(req.body);
     try {
         const userInfo = await user.save();
@@ -27,7 +29,7 @@ app.post('/api/users/register', async (req, res) => {
     }
 });
 
-app.post('/api/users/login', async (req, res) => {
+app.post('/users/login', async (req, res) => {
     try {
         // 1. 요청된 이메일을 DB에서 찾기
         const user = await User.findOne({ email: req.body.email });
@@ -60,7 +62,7 @@ app.post('/api/users/login', async (req, res) => {
     }
 })
 
-app.post('/api/users/auth', auth, async (req, res) => {
+app.post('/users/auth', auth, async (req, res) => {
     // 미들웨어를 통과했다 = Authentication이 true다.
     res.status(200).json({
         _id: req.user._id,
@@ -74,7 +76,7 @@ app.post('/api/users/auth', auth, async (req, res) => {
     });
 })
 
-app.get('/api/users/logout', auth, async (req, res) => {
+app.get('/users/logout', auth, async (req, res) => {
     try {
         await User.findOneAndUpdate({_id:req.user._id}, {token:""});
         return res.status(200).send({success:true});
