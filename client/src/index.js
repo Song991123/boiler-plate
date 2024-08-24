@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import 'antd/dist/antd.css'; // Ant Design의 기본 CSS를 임포트
+import 'antd/dist/reset.css'; // Ant Design의 기본 CSS를 임포트
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
