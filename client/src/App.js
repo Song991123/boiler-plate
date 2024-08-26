@@ -6,16 +6,20 @@ import LandingPage from "./components/views/LandingPage/LandingPage";
 import LoginPage from "./components/views/LoginPage/LoginPage";
 import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import NavBar from './components/views/NavBar/NavBar';
+import auth from './hoc/auth';
 
 function App() {
+  const AuthLandingPage = auth(LandingPage, null);
+  const AuthLoginPage = auth(LoginPage, false);
+  const AuthRegisterPage = auth(RegisterPage, false);
   return (
     <>
     <NavBar/>
     <Router>
         <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/" element={<AuthLandingPage />} />
+            <Route path="/login" element={<AuthLoginPage />} />
+            <Route path="/register" element={<AuthRegisterPage />} />
         </Routes>
     </Router>
     <Footer />

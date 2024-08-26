@@ -19,14 +19,14 @@ export default async function auth(req, res, next){
         let token = req.cookies.x_auth;
         // 토큰이 없으면 인증 실패
         if (!token) {
-            return res.status(401).json({ isAuth: false, error: 'No token provided' });
+            return res.json({ isAuth: false, error: 'No token provided' });
         }
         // 2. 토큰을 복호화한 후 유저를 찾는다
         const user = await User.findByToken(token);
         // 3. 유저가 있으면 인증 OK
         // 3-1. 유저가 없으면 인증 NO
         if (!user) {
-            return res.status(401).json({ isAuth: false, error: 'Invalid token' });
+            return res.json({ isAuth: false, error: 'Invalid token' });
         }
         req.token = token;
         req.user = user;

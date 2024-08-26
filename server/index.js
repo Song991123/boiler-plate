@@ -62,7 +62,7 @@ app.post('/users/login', async (req, res) => {
     }
 })
 
-app.post('/users/auth', auth, async (req, res) => {
+app.get('/users/auth', auth, async (req, res) => {
     // 미들웨어를 통과했다 = Authentication이 true다.
     res.status(200).json({
         _id: req.user._id,
