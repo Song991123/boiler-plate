@@ -1,5 +1,14 @@
 import React, {useEffect} from 'react';
 import axios from "axios";
+import styled from "styled-components";
+
+const LandigDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+`;
 
 
 function LandingPage() {
@@ -20,7 +29,9 @@ function LandingPage() {
   },[]);
 
   return (
-    <div>LandingPage</div>
+    <LandigDiv>
+      <h2>시작 페이지</h2>
+    </LandigDiv>
   )
 }
 
