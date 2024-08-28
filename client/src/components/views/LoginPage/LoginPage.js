@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../../../_reducers/userSlice';
+import { loginUser } from '../../../_actions/user_action';
 
 const LoginDiv = styled.div`
   display: flex;
