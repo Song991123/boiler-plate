@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {useDispatch} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { auth } from "../_actions/user_action";
+import { auth } from "../_reducers/userSlice";
 /**
  * Authentication HOC (Higher Order Component)
  * 특정 컴포넌트에 대한 접근 제어를 설정하는 HOC.
