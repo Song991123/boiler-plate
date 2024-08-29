@@ -5,23 +5,11 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {Provider} from 'react-redux';
 import "antd/dist/reset.css"; // Ant Design의 기본 CSS를 임포트
-import {applyMiddleware, createStore} from "redux";
-import promiseMiddleware from 'redux-promise';
-import {thunk as ReduxThunk} from 'redux-thunk';
-import Reducer from './_reducers';
-
-const createStoreWithMiddleWare = applyMiddleware(
-    promiseMiddleware,
-    ReduxThunk
-)(createStore);
+import store from './store'; // 새로 만든 store 파일을 import
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <Provider
-        store={createStoreWithMiddleWare(
-            Reducer,
-            window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-        )}>
+    <Provider store={store}>
         <React.StrictMode>
             <App/>
         </React.StrictMode>

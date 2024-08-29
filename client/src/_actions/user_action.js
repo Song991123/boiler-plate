@@ -1,29 +1,39 @@
-import axios from "axios";
-import { LOGIN_USER, REGISTER_USER, AUTH_USER } from "./types";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-export function loginUser(dataToSubmit) {
-    const request = axios
-        .post('/api/users/login', dataToSubmit)
-        .then(response => response.data)
-        return{
-            type: LOGIN_USER,
-            payload: request
+// Async thunk actions
+export const loginUser = createAsyncThunk(
+    'user/login',
+    async (dataToSubmit, {rejectWithValue}) => {
+        try {
+            const response = await axios.post('/api/users/login', dataToSubmit);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
         }
-}
-export function registerUser(dataToSubmit) {
-    const request = axios
-        .post('/api/users/register', dataToSubmit)
-        .then(response => response.data)
-        return{
-            type: REGISTER_USER,
-            payload: request
+    }
+);
+
+export const registerUser = createAsyncThunk(
+    'user/register',
+    async (dataToSubmit, {rejectWithValue}) => {
+        try {
+            const response = await axios.post('/api/users/register', dataToSubmit);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
         }
-}
-export function auth(dataToSubmit) {
-    const request = axios.get('/api/users/auth')
-        .then(response => response.data)
-        return{
-            type: AUTH_USER,
-            payload: request
+    }
+);
+
+export const auth = createAsyncThunk(
+    'user/auth',
+    async (_, {rejectWithValue}) => {
+        try {
+            const response = await axios.get('/api/users/auth');
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
         }
-}
+    }
+);
